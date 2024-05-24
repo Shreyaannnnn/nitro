@@ -1,0 +1,8 @@
+const createAsset = () => {
+
+}
+
+
+const mintTokens = () => {
+
+}
