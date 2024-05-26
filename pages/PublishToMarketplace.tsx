@@ -54,6 +54,7 @@ import {abi} from '@/utils/config'
 import {contracts} from '@/utils/config'
 import {CID} from 'multiformats/cid';
 import Publish from '@/components/Publish/Publish'
+import getAssetAddress from '@/utils/functions/getAddress';
 
 // import {ethers} from 'ethers'
 
@@ -82,7 +83,7 @@ const UploadPage =() => {
 
 
 
-  const { video } = router.query;
+  const { video, cid } = router.query;
   
       const [videoInfo, setVideoInfo] = useState(null)
       let VideoInfo;
@@ -123,27 +124,34 @@ const UploadPage =() => {
 
 
 
-useEffect(() => {
-  if (video){
-  setVideoInfo(JSON.parse(decodeURIComponent(video as string)));
-  }
-  console.log(videoInfo);
-  
-  
-  const initializeProvider = async () => {
-      try {
-          const provider = new ethers.BrowserProvider((window as any).ethereum);
-          const signer = await provider.getSigner();
-          setSigner(signer);
-          console.log(signer);
-          const shardZMarketContract = new ethers.Contract(contracts.AssetMarket, contractABI, signer);
-          setContract(shardZMarketContract);
-      } catch (error) {
-          console.error("Error initializing provider:", error);
-      }
-  };
 
-  initializeProvider();
+useEffect(() => {
+  (async () => {
+    if (video){
+      setVideoInfo(JSON.parse(decodeURIComponent(video as string)));
+      }
+      console.log(videoInfo);
+      console.log(cid);
+      const result = getAssetAddress(cid);
+      const AssetAddress = await result;
+      console.log(AssetAddress);
+      
+      const initializeProvider = async () => {
+          try {
+              const provider = new ethers.BrowserProvider((window as any).ethereum);
+              const signer = await provider.getSigner();
+              setSigner(signer);
+              console.log(signer);
+              const shardZMarketContract = new ethers.Contract(contracts.AssetMarket, contractABI, signer);
+              setContract(shardZMarketContract);
+          } catch (error) {
+              console.error("Error initializing provider:", error);
+          }
+      };
+    
+      initializeProvider();
+    
+  })(); // Notice the immediate invocation here
 }, []);
 
 

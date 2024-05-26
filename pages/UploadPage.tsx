@@ -51,6 +51,9 @@ import Image from 'next/image';
 import contractABI from '@/public/abi/createNft.json';
 import { useRouter } from 'next/router';
 import { log } from 'console';
+import CreateContent from '@/utils/functions/CreateContent';
+
+
 // import {ethers} from 'ethers'
 
 const formSchema = z.object({
@@ -128,11 +131,13 @@ useEffect(() => {
   }
   
 
-  async function createNFT(signer: JsonRpcSigner, cid: string): Promise<any> {
+  async function createNFT(signer: JsonRpcSigner, cid: string, name: string): Promise<any> {
     try {
       console.log(contract);
       const transaction = await contract.createNFT(signer, cid);
       const receipt = await transaction.wait();
+
+      CreateContent(name, cid )
       setUploading(false);
 
       setSuccessful(true);
@@ -185,7 +190,7 @@ useEffect(() => {
     
     
     // const nft = await axios.post('http://192.168.1.34:8080/api/contract/createNFT', {signer: signerr.address, cid: output.data.Hash})
-    const nft = await createNFT(signerr.address , output.data.Hash)
+    const nft = await createNFT(signerr.address , output.data.Hash, form.watch('Title'))
 
     // setUploading(false);
 

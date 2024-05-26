@@ -119,7 +119,7 @@ const Content = () => {
 <div className="mx-auto space-y-[2vw] hidden md:block ">
       
       {allVideos.map((video,index) => (
-        <Link href={`/PublishToMarketplace?video=${encodeURIComponent(JSON.stringify(video))}`} key={index} >
+        <Link href={`/PublishToMarketplace?video=${encodeURIComponent(JSON.stringify(video))}&cid=${video.fileName.substring(0, video.fileName.lastIndexOf(' '))}`} key={index} >
             <div className='bg-gradient-to-r from-[#fff0] via-[#ffffff2d] to-cyan-400 p-[0.1vw] rounded-[0.5vw] mb-[0.5vw]' >
               
               <div className="bg-black flex items-center p-[0.5vw] text-white rounded-[0.5vw]">

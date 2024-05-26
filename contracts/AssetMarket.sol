@@ -1,3 +1,5 @@
+// SPDX-License-Identifier: MIT
+// Compatible with OpenZeppelin Contracts ^5.0.0
 pragma solidity ^0.8.20;
 
 import "./Asset.sol";
@@ -22,15 +24,33 @@ contract Market {
     uint private _listingId = 0;
     mapping(address => Listing) private _listings;
 
-    function createcontent(string memory _name, string memory _symbol) public returns (address) {
-        Asset asset = new Asset(_name, _symbol);
+    mapping(string => address) private _nftToAsset; // Change bytes32 to string
+
+    function createcontent(string memory name, string memory contentNFT) public returns (address) {
+        // Check if an Asset contract already exists for the CID
+        address existingAssetAddress = _nftToAsset[contentNFT];
+
+        if (existingAssetAddress != address(0)) {
+            // An Asset contract already exists, return its address
+            return existingAssetAddress;
+        }
+        
+        Asset asset = new Asset(name, contentNFT);
         _assets.push(address(asset));
         Listing memory listing = Listing(Listingstatus.Cancelled, msg.sender, 0, 0);
         _listings[address(asset)]=listing;
         asset.transferOwnership(msg.sender);
+
+        // Store the association between CID and Asset address
+        _nftToAsset[contentNFT] = address(asset);
+
         return address(asset);
     }
 
+
+    function getAssetAddress(string memory contentNFT) public view returns (address) { // Change bytes32 to string
+        return _nftToAsset[contentNFT];
+    }
 
 
     

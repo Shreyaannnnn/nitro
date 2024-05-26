@@ -8,8 +8,8 @@ import "@openzeppelin/contracts@5.0.2/access/Ownable.sol";
 
 contract Asset is ERC20, ERC20Burnable, Ownable {
     
-    constructor(string memory _name, string memory _symbol)
-        ERC20(_name, _symbol)
+    constructor(string memory name, string memory contentNFT)
+        ERC20(name, contentNFT)
         Ownable(msg.sender)
     {}
 

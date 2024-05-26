@@ -20,8 +20,21 @@ import {
   TabsList,
   TabsTrigger,
 } from "@/components/ui/tabs"
-function StudioPage() {
+import CreateContent from '@/utils/functions/CreateContent';
 
+
+interface PublishProps {
+  cid: string
+}
+
+function StudioPage(props: PublishProps) {
+  const {cid} = props;
+
+
+  // const publish = () =>{
+  //   CreateContent('name', cid )
+
+  // }
 
 
     
