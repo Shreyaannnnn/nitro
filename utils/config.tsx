@@ -1,5 +1,6 @@
 import contractABI from '@/public/abi/createNft.json';
 import marketContractABI from '@/public/abi/assetMarket.json';
+import AssetABI from '@/public/abi/Asset.json'
 // import { ethers } from 'ethers';
 
 export const contracts = {
@@ -9,5 +10,6 @@ export const contracts = {
 
 export const abi = {
     makeNFT: contractABI,
-    AssetMarket: marketContractABI
+    AssetMarket: marketContractABI,
+    Asset: AssetABI
 }

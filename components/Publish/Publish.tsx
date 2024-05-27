@@ -31,12 +31,6 @@ function StudioPage(props: PublishProps) {
   const {cid} = props;
 
 
-  // const publish = () =>{
-  //   CreateContent('name', cid )
-
-  // }
-
-
     
   return (
       <Tabs defaultValue="setprice" className=" w-[300px] md:w-[400px] lg:w-[400px]  rounded-xl mx-auto">

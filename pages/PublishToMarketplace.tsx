@@ -55,6 +55,9 @@ import {contracts} from '@/utils/config'
 import {CID} from 'multiformats/cid';
 import Publish from '@/components/Publish/Publish'
 import getAssetAddress from '@/utils/functions/getAddress';
+import mintTokens from '@/utils/functions/mintTokens';
+import Mint from '@/components/Publish/Mint'
+import getTotalSupply from '@/utils/functions/getTotalSupply';
 
 // import {ethers} from 'ethers'
 
@@ -76,10 +79,13 @@ const UploadPage =() => {
   const [selectedVideo, setSelectedVideo] = useState<File | null>(null);
   const [portion, setPortion] = useState<number>(50); // Initial portion value
   const [price, setPrice] = useState<number>(0); // Initial price value
+  const [assetAddress, setAssetAddress] = useState<string>('')
+  const [totalSupply, setTotalSupply] = useState<number>(0)
   const onDrop = useCallback((acceptedFiles: File[]) => {
     setSelectedVideo(acceptedFiles[0]);
   }, []);
   const [minted, setMinted] = useState(false)
+  // const [amount, setAmount] = useState<number>(0)
 
 
 
@@ -134,7 +140,13 @@ useEffect(() => {
       console.log(cid);
       const result = getAssetAddress(cid);
       const AssetAddress = await result;
+      const sup = getTotalSupply(AssetAddress)
+      const supply = await sup;
+      setTotalSupply(supply);
+      console.log(supply);
+      
       console.log(AssetAddress);
+      setAssetAddress(AssetAddress);
       
       const initializeProvider = async () => {
           try {
@@ -149,7 +161,7 @@ useEffect(() => {
           }
       };
     
-      initializeProvider();
+      // initializeProvider();
     
   })(); // Notice the immediate invocation here
 }, []);
@@ -205,18 +217,15 @@ function onSubmit(values: z.infer<typeof formSchema>) {
 
 
 
-  const mintTokens = async() =>{
-    const cidString = "QmPyHE1SJKKvNPnUmZ5QjdiceK612qxLaw2fDfihTYd8Rm";
-    const cid = new CID(cidString);
-    const transaction = await contract.createcontent(videoInfo.cid, '$');
-    const receipt = await transaction.wait();
-    console.log(transaction);
-    console.log(receipt.logs[0].address);
-    setMinted(true)
-  }
+  
   const publish = async() =>{
     
   }
+
+
+  // const mint = async() =>{
+  //   mintTokens(cid, assetAddress, amount)
+  // }
 
 
 
@@ -334,16 +343,6 @@ function onSubmit(values: z.infer<typeof formSchema>) {
 
 
 
-      
-
-
-
-
-
-
-
-
-
       </div>
       <div className=' pb-[5vw] md:hidden' >
     
@@ -396,8 +395,23 @@ function onSubmit(values: z.infer<typeof formSchema>) {
 
       </div>
 
+      {totalSupply>0 ? 
+      (
+        <div>
+          <div>
+            Total Supply:
+            <p>{totalSupply}</p>
+          </div>
+      <Publish cid={cid}/>
+      </div>
+    ) : (
+      <Mint cid={cid} assetAddress={assetAddress}/>
+      ) }
 
-    <Publish />
+
+    {/* <Mint cid={cid} assetAddress={assetAddress}/>
+
+    <Publish cid={cid}/> */}
 
     </div>
   );
