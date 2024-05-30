@@ -164,7 +164,7 @@ useEffect(() => {
       // initializeProvider();
     
   })(); // Notice the immediate invocation here
-}, [totalSupply]);
+}, []);
 
 
 function onSubmit(values: z.infer<typeof formSchema>) {
