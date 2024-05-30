@@ -5,7 +5,8 @@ import AssetABI from '@/public/abi/Asset.json'
 
 export const contracts = {
     makeNFT: '0x23Ef0e4f4031c2d0DeeB4C1f7b8fe097a8276342',
-    AssetMarket: '0xd86E615190bE769ee53C7Eca8D4968720DeA69EE'
+    // AssetMarket: '0xd86E615190bE769ee53C7Eca8D4968720DeA69EE'
+    AssetMarket: '0x93Ea4d5B118961f000C20673F4c4ED69700500a7'
 }
 
 export const abi = {

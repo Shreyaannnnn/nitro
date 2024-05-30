@@ -164,7 +164,7 @@ useEffect(() => {
       // initializeProvider();
     
   })(); // Notice the immediate invocation here
-}, []);
+}, [totalSupply]);
 
 
 function onSubmit(values: z.infer<typeof formSchema>) {
@@ -402,7 +402,7 @@ function onSubmit(values: z.infer<typeof formSchema>) {
             Total Supply:
             <p>{totalSupply}</p>
           </div>
-      <Publish cid={cid}/>
+      <Publish cid={cid} assetAddress={assetAddress}/>
       </div>
     ) : (
       <Mint cid={cid} assetAddress={assetAddress}/>

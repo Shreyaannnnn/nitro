@@ -137,7 +137,8 @@ useEffect(() => {
       const transaction = await contract.createNFT(signer, cid);
       const receipt = await transaction.wait();
 
-      CreateContent(name, cid )
+      const tx = CreateContent(name, cid )
+      const result = await tx;
       setUploading(false);
 
       setSuccessful(true);

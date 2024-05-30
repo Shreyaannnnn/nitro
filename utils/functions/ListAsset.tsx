@@ -1,17 +1,21 @@
 import {ethers, Contract, Provider, JsonRpcSigner} from 'ethers';
 import {contracts, abi} from '@/utils/config'
 
-const CreateContent = async(name: string, cid:string) =>{
+const ListAsset = async(assetAddress: string, amount: number, price: number) => {
+    try{
     const provider = new ethers.BrowserProvider((window as any).ethereum);
     const signer = await provider.getSigner(); 
     const AssetMarketContract = new ethers.Contract(contracts.AssetMarket, abi.AssetMarket, signer);
-    const transaction = await AssetMarketContract.createcontent(name, cid);
-    const receipt = await transaction.wait()
+    const transaction = await AssetMarketContract.addassettolist(assetAddress,amount,price);
     console.log(transaction);
-    console.log(receipt);
-    return transaction;
     
+    return transaction;
+    }
+    catch (err){
+        console.log(err);
+        
+    }
+
 }
 
-
-export default CreateContent
+export default ListAsset;
