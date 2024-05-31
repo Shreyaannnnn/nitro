@@ -126,43 +126,17 @@ function MarketPlace() {
 
   
 
-    const fetchData = async () => {
-        try {
-            const provider = new ethers.BrowserProvider((window as any).ethereum);
-            const signer = await provider.getSigner();
-            setSigner(signer);
-            // const shardZNFTContract = new ethers.Contract("0x4335e4fFfD017D382dFae9131E966555f0E41B8C", contractABI, signer);
-            const shardZNFTContract = new ethers.Contract("0x23Ef0e4f4031c2d0DeeB4C1f7b8fe097a8276342", contractABI, signer);
-            setContract(shardZNFTContract);
-      
-            for (let i = 1; ; i++) {
-                try{
-                const transaction = await shardZNFTContract.getTokenCID(i);
-                const owner = await shardZNFTContract.ownerOf(i);
-                transactionList.push([transaction, owner]);
-                }
-                catch(err){
-                    break;
-                }
-            }
-            
-            console.log(transactionList);
-            console.log(transactionList);
-        } catch (error) {
-          console.error('Error setting up signer and contract:', error);
-        }
-      };
+    
       
       
+    useEffect(() => {
+        (async () => {  
       
       
+        })(); // Notice the immediate invocation here
+    }, []); 
       
-      
-      
-        useEffect(() => {
-          fetchData();
-      
-      }, []); 
+    
 
 
     return (

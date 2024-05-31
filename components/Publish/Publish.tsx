@@ -25,6 +25,8 @@ import CreateContent from '@/utils/functions/CreateContent';
 import ApproveTokens from '@/utils/functions/ApproveTokens';
 import {contracts} from '@/utils/config'
 import ListAsset from '@/utils/functions/ListAsset';
+import listingAnimationData from '@/public/animation/listing.json'
+import Lottie from 'react-lottie';
 
 
 
@@ -38,6 +40,8 @@ function StudioPage(props: PublishProps) {
 
   const [amount, setAmount] = useState<number>(0)
   const [price, setPrice] = useState<number>(0)
+  const [approving, setApproving] = useState<boolean>(false)
+  const [listing, setListing] = useState<boolean>(false)
 
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault(); // Prevent default form submission
@@ -54,15 +58,37 @@ function StudioPage(props: PublishProps) {
 
   const publish = async() => {
     // console.log(amount, price);
+    setApproving(true)
+
     
+    setListing(true)
     const result = await ApproveTokens(assetAddress, amount)
     const approve = await result;
+    setApproving(false)
     ListAsset(assetAddress, amount, price)
+    setListing(false)
   }
 
     
   return (
       <Tabs defaultValue="setprice" className=" w-[300px] md:w-[400px] lg:w-[400px]  rounded-xl mx-auto">
+        {listing && <div style={{position: 'fixed',
+          top: 0,
+          left: 0,
+          width: '100%',
+          height: '100%',
+          backgroundColor: 'rgba(0, 0, 0, 0.5)', // Semi-transparent black
+          zIndex: 9999, // Ensure the overlay is on top of other content
+          filter: 'grayscale(100%)'}} />}
+        {listing && (
+                <div style={{ position: 'fixed', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', zIndex: 10000 }}>
+                    <Lottie options={{ animationData: listingAnimationData }} height={300} width={300} />
+                    <br/>
+                    <h1 className='text-white text-center'>
+                    Listing Your Content
+                    </h1>
+                </div>
+            )}
       <TabsList className="grid w-full grid-cols-2">
       <TabsTrigger  className=' text-white text-lg bg-[#33C1EE]' value="setprice">Set Price</TabsTrigger>
         <TabsTrigger className=' text-white text-lg bg-[#33C1EE] ' value="publish">Publish</TabsTrigger>

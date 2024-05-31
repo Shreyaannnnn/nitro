@@ -3,6 +3,7 @@ import thumbnail from '@/public/images/thumbnail.png'
 import Link from 'next/link'
 import lighthouse from '@lighthouse-web3/sdk'
 import SkeletonLoading from '../StudioPage/SkeletonLoading';
+import { lighthouseAPI } from '@/utils/config';
 
 const VideoSection = () => {
   const videos = [
@@ -40,7 +41,7 @@ const VideoSection = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await lighthouse.getUploads("27423fd5.3c405e09d4dc4b1e8b5e78ff342ba5c2");
+        const response = await lighthouse.getUploads(lighthouseAPI);
         if (response.data && response.data.fileList) {
           const imageExtensions = [".jpg", ".jpeg", ".png"];
           const nonImageFiles = response.data.fileList.filter(file => {

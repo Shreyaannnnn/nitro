@@ -15,6 +15,7 @@ import Image from 'next/image';
 import {ethers} from 'ethers'
 import { Button } from '../ui/button';
 import SkeletonLoading from '../StudioPage/SkeletonLoading';
+import { lighthouseAPI } from '@/utils/config';
 
 const Content = () => {
   const videos = [
@@ -61,7 +62,7 @@ const Content = () => {
             // const shardZNFTContract = new ethers.Contract("0x4335e4fFfD017D382dFae9131E966555f0E41B8C", contractABI, signer);
             const shardZNFTContract = new ethers.Contract("0x23Ef0e4f4031c2d0DeeB4C1f7b8fe097a8276342", contractABI, signer)
             
-            const response = await lighthouse.getUploads("27423fd5.3c405e09d4dc4b1e8b5e78ff342ba5c2");
+            const response = await lighthouse.getUploads(lighthouseAPI);
             if (response.data && response.data.fileList) {
       
             for (let i = 1; ; i++) {

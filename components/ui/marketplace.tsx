@@ -1,7 +1,8 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import thumbnail from '@/public/images/thumbnail.png'
 import { Button } from './button';
 import Link from 'next/link'
+import getAllAssets from '@/utils/functions/getAllAssets'
 
 const Market = () => {
   const rewards = [
@@ -17,6 +18,15 @@ const Market = () => {
     { id: 10, creator: '@Andy William' , collectable: true , title: 'Basic how to get into web 2 ecosystem', cost: '0.8 ETH' , thumbnail },
 
   ];
+
+  useEffect(() => {
+    (async () => {
+
+      getAllAssets()
+
+
+    })(); // Notice the immediate invocation here
+  }, []);
 
   return (
     <div className="  md:w-[90%] pb-[10vw] ">

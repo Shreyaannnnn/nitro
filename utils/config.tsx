@@ -6,7 +6,9 @@ import AssetABI from '@/public/abi/Asset.json'
 export const contracts = {
     makeNFT: '0x23Ef0e4f4031c2d0DeeB4C1f7b8fe097a8276342',
     // AssetMarket: '0xd86E615190bE769ee53C7Eca8D4968720DeA69EE'
-    AssetMarket: '0x93Ea4d5B118961f000C20673F4c4ED69700500a7'
+    // AssetMarket: '0x93Ea4d5B118961f000C20673F4c4ED69700500a7'
+    // AssetMarket: '0x2986302AC843926441FAbA8C36f85FC4533F9382'
+    AssetMarket: '0x99D8EbF5500069dc2c194f9005fD7bE320eD8c1e'
 }
 
 export const abi = {
@@ -14,3 +16,5 @@ export const abi = {
     AssetMarket: marketContractABI,
     Asset: AssetABI
 }
+
+export const lighthouseAPI = '9b7a2c41.6bda5c574a8149148a7a184d6a635d7f'

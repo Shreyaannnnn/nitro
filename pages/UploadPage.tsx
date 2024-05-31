@@ -11,8 +11,8 @@ import 'slick-carousel/slick/slick-theme.css';
 import Sidemenu from '@/components/main/Sidemenu'
 import Nav from '@/components/main/Nav'
 import Lottie, {LottieProps} from 'react-lottie';
-import uploadAnimationData from '@/public/uploading.json'
-import successfulAnimation from '@/public/successful.json'
+import uploadAnimationData from '@/public/animation/uploading.json'
+import successfulAnimation from '@/public/animation/successful.json'
 import Link from 'next/link';
 import { PutObjectCommand, S3Client } from "@aws-sdk/client-s3";
 import { upload } from "@lighthouse-web3/sdk";
@@ -52,6 +52,7 @@ import contractABI from '@/public/abi/createNft.json';
 import { useRouter } from 'next/router';
 import { log } from 'console';
 import CreateContent from '@/utils/functions/CreateContent';
+import { lighthouseAPI } from '@/utils/config'
 
 
 // import {ethers} from 'ethers'
@@ -165,7 +166,7 @@ useEffect(() => {
 
       // const thumbnailOutput = await lighthouse.upload( [thumbnail], '634d38b8.9e4eefb3ff5940b78276e56b7403a967');
       // console.log(thumbnail);27423fd5.3c405e09d4dc4b1e8b5e78ff342ba5c2
-      const thumbnailOutput = await lighthouse.upload( [thumbnail], '27423fd5.3c405e09d4dc4b1e8b5e78ff342ba5c2');
+      const thumbnailOutput = await lighthouse.upload( [thumbnail], lighthouseAPI);
       
 
       const updatedFileName = form.watch('Title') + " " + thumbnailOutput.data.Hash;
@@ -174,7 +175,7 @@ useEffect(() => {
       
       setSelectedVideo(updatedFile);
 
-      const output = await lighthouse.upload( [updatedFile], '27423fd5.3c405e09d4dc4b1e8b5e78ff342ba5c2');
+      const output = await lighthouse.upload( [updatedFile], lighthouseAPI);
       console.log('File Status:', output);
       console.log('Visit at https://gateway.lighthouse.storage/ipfs/' + output.data.Hash);
       
