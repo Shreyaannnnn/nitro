@@ -29,6 +29,7 @@ import Link from 'next/link';
 import Market from '../components/ui/marketplace';
 import { ethers } from 'ethers';
 import contractABI from '@/public/abi/createNft.json'
+import getMarketplace from '@/utils/functions/getMarketplace';
 
 
 function MarketPlace() {
@@ -131,7 +132,11 @@ function MarketPlace() {
       
     useEffect(() => {
         (async () => {  
-      
+        // const result = getMarketplace();
+        // const Assets = await result;
+        // // console.log(Assets);
+        
+        
       
         })(); // Notice the immediate invocation here
     }, []); 
@@ -143,7 +148,7 @@ function MarketPlace() {
         <div className='bg-[#0D0D0E]' style={{
             backgroundImage: `url(${ellipse.src})`,
             width: '100%',
-            height: '100%',
+            height: '100vh',
             backgroundSize: "cover",
             backgroundRepeat: 'no-repeat',
         }}>
@@ -178,7 +183,7 @@ function MarketPlace() {
             
 
             <Sidemenu />
-                <div className='w-[95%] mx-[2vw] md:w-4/5 md:mx-auto space-y-[1vw]'>
+                <div className='w-[95%] mx-[2vw] md:w-4/5 md:mx-auto space-y-[1vw] h-full'>
                     <div>
                         <h2 className='text-white text-[5vw] md:text-[2vw] cursor-pointer font-semibold'>Explore Marketplace</h2>
                     </div>
