@@ -7,10 +7,10 @@ const getTotalSupply = async (contractAddress: string) => {
     const assetContract = new ethers.Contract(contractAddress, abi.Asset, signer);
 
     const supplyInWei = await assetContract.totalSupply();
-    const supplyInEther = ethers.formatEther(supplyInWei);
+    // const supplyInEther = ethers.formatEther(supplyInWei);
     
-    console.log(supplyInEther);
-    return supplyInEther;
+    console.log(supplyInWei);
+    return supplyInWei;
 };
 
 export default getTotalSupply;

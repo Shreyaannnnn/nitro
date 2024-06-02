@@ -14,7 +14,7 @@ import Link from 'next/link'
 import Image from 'next/image';
 import {ethers} from 'ethers'
 import { Button } from '../ui/button';
-import SkeletonLoading from '../StudioPage/SkeletonLoading';
+import SkeletonLoading from './SkeletonLoading';
 import { lighthouseAPI } from '@/utils/config';
 
 const Content = () => {

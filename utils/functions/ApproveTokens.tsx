@@ -19,18 +19,12 @@ const ApproveTokens = async (contractAddress: string, amount: number) => {
   const signer = await provider.getSigner();
   const assetContract = new ethers.Contract(contractAddress, abi.Asset, signer);
 
-  const amountInWei = ethers.parseEther(amount.toString());
-  const tx = await assetContract.approve(contracts.AssetMarket, amountInWei);
+  // const amountInWei = ethers.parseEther(amount.toString());
+  const tx = await assetContract.approve(contracts.AssetMarket, amount);
 
   const receipt = await tx.wait(); // Wait for transaction confirmation
   const block = await provider.getBlock(receipt.blockNumber);
   const rawTx = await provider.send('eth_getTransactionByHash', [tx.hash]); // Get raw transaction
-  // const signature = ethers.splitSignature(rawTx.signature);
-
-  // // Ensure the transaction object has all signature components
-  // receipt.r = signature.r;
-  // receipt.s = signature.s;
-  // receipt.v = signature.v;
 
   return receipt; 
 };

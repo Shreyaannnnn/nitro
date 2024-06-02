@@ -8,7 +8,8 @@ export const contracts = {
     // AssetMarket: '0xd86E615190bE769ee53C7Eca8D4968720DeA69EE'
     // AssetMarket: '0x93Ea4d5B118961f000C20673F4c4ED69700500a7'
     // AssetMarket: '0x2986302AC843926441FAbA8C36f85FC4533F9382'
-    AssetMarket: '0x99D8EbF5500069dc2c194f9005fD7bE320eD8c1e'
+    // AssetMarket: '0x99D8EbF5500069dc2c194f9005fD7bE320eD8c1e'
+    AssetMarket: '0x0fe5F3f03354d43187B8A4F6f2d5F95b0b76070f'
 }
 
 export const abi = {
