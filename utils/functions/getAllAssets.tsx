@@ -6,7 +6,7 @@ const getAllAssets = async() =>{
     const data =[]
     const provider = new ethers.BrowserProvider((window as any).ethereum);
     const signer = await provider.getSigner(); 
-    const AssetMarketContract = new ethers.Contract(contracts.AssetMarket, abi.AssetMarket, signer);
+    const AssetMarketContract = new ethers.Contract(contracts.AssetMarket, abi.AssetMarket, provider);
     const transaction = await AssetMarketContract.getListedAssets();
 
     for (let index = 0; index < transaction.length; index++) {
