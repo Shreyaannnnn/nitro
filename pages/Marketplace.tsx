@@ -29,7 +29,6 @@ import Link from 'next/link';
 import Market from '../components/ui/marketplace';
 import { ethers } from 'ethers';
 import contractABI from '@/public/abi/createNft.json'
-import getMarketplace from '@/utils/functions/getMarketplace';
 
 
 function MarketPlace() {

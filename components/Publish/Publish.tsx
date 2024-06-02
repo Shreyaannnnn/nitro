@@ -38,8 +38,8 @@ interface PublishProps {
 function StudioPage(props: PublishProps) {
   const {cid, assetAddress} = props;
 
-  const [amount, setAmount] = useState<number>(0)
-  const [price, setPrice] = useState<number>(0)
+  const [amount, setAmount] = useState<any>(0)
+  const [price, setPrice] = useState<any>(0)
   const [approving, setApproving] = useState<boolean>(false)
   const [listing, setListing] = useState<boolean>(false)
 

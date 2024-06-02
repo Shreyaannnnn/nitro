@@ -80,7 +80,7 @@ const UploadPage =() => {
   const [portion, setPortion] = useState<number>(50); // Initial portion value
   const [price, setPrice] = useState<number>(0); // Initial price value
   const [assetAddress, setAssetAddress] = useState<string>('')
-  const [totalSupply, setTotalSupply] = useState<number>(0)
+  const [totalSupply, setTotalSupply] = useState<any>(0)
   const onDrop = useCallback((acceptedFiles: File[]) => {
     setSelectedVideo(acceptedFiles[0]);
   }, []);
@@ -143,7 +143,7 @@ useEffect(() => {
       const sup = getTotalSupply(AssetAddress)
       const supply = await sup;
       setTotalSupply(supply);
-      console.log(supply);
+      console.log(totalSupply);
       
       console.log(AssetAddress);
       setAssetAddress(AssetAddress);
