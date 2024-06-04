@@ -126,28 +126,97 @@ function MarketPlace() {
 
   
 
-    
+    const fetchData = async () => {
+        try {
+            const provider = new ethers.BrowserProvider((window as any).ethereum);
+          const network = await provider.getNetwork();
+
+            if(network.chainId !== BigInt(11155111)){
+                try{
+                    await (window as any).ethereum.request(
+                        {
+                            method: 'wallet_switchEthereumChain',
+                            params: [{ chainId: '0xaa36a7' }],
+                        }
+                    );
+                } catch(switchError: any) {
+                    if (switchError.code === 4902) {
+                        try {
+                          await (window as any).ethereum.request({
+                            method: 'wallet_addEthereumChain',
+                            params: [
+                              {
+                                chainId: '0xaa36a7',
+                                chainName: 'Sepolia',
+                                rpcUrls: ['https://sepolia.infura.io/v3/b68f079cfd2445858ffb7ca65022a551'], // Add your RPC URL for Sepolia
+                                nativeCurrency: {
+                                  name: 'SepoliaETH',
+                                  symbol: 'SepoliaETH',
+                                  decimals: 18,
+                                },
+                                blockExplorerUrls: ['https://sepolia.etherscan.io'],
+                              },
+                            ],
+                          });
+                        } catch (addError) {
+                          console.error('Failed to add network:', addError);
+                          return;
+                        }
+                      } else {
+                        console.error('Failed to switch network:', switchError);
+                        return;
+                      }
+                }
+            }
+
+            const updatedNetwork = await provider.getNetwork();
+            console.log(updatedNetwork.name);
+      // document.getElementById('networkInfo').innerText = `Connected to network: ${updatedNetwork.name} (Chain ID: ${updatedNetwork.chainId})`;
+
+      (window as any).ethereum.on('chainChanged', () => {
+        window.location.reload();
+      });
+          const signer = await provider.getSigner(); 
+          setSigner(signer);
+          console.log(signer);
+          const shardZNFTContract = new ethers.Contract("0x23Ef0e4f4031c2d0DeeB4C1f7b8fe097a8276342", contractABI, signer);
+          setContract(shardZNFTContract);
+      
+            for (let i = 1; ; i++) {
+                try{
+                const transaction = await shardZNFTContract.getTokenCID(i);
+                const owner = await shardZNFTContract.ownerOf(i);
+                transactionList.push([transaction, owner]);
+                }
+                catch(err){
+                    break;
+                }
+            }
+            
+            console.log(transactionList);
+            console.log(transactionList);
+        } catch (error) {
+          console.error('Error setting up signer and contract:', error);
+        }
+      };
       
       
-    useEffect(() => {
-        (async () => {  
-        // const result = getMarketplace();
-        // const Assets = await result;
-        // // console.log(Assets);
-        
-        
       
-        })(); // Notice the immediate invocation here
-    }, []); 
       
-    
+      
+      
+      
+        useEffect(() => {
+          fetchData();
+      
+      }, []); 
 
 
     return (
         <div className='bg-[#0D0D0E]' style={{
             backgroundImage: `url(${ellipse.src})`,
             width: '100%',
-            height: '100vh',
+            height: '100%',
             backgroundSize: "cover",
             backgroundRepeat: 'no-repeat',
         }}>
@@ -182,7 +251,7 @@ function MarketPlace() {
             
 
             <Sidemenu />
-                <div className='w-[95%] mx-[2vw] md:w-4/5 md:mx-auto space-y-[1vw] h-full'>
+                <div className='w-[95%] mx-[2vw] md:w-4/5 md:mx-auto space-y-[1vw]'>
                     <div>
                         <h2 className='text-white text-[5vw] md:text-[2vw] cursor-pointer font-semibold'>Explore Marketplace</h2>
                     </div>
