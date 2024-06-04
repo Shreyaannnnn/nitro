@@ -3,7 +3,7 @@ import {contracts, abi} from '@/utils/config'
 
 
 
-const ListAsset = async(assetAddress: string, amount: number, price: number) => {
+const BuyAssetTokens = async(assetAddress: string, amount: number, price: number) => {
     try{
     const provider = new ethers.BrowserProvider((window as any).ethereum);
     const signer = await provider.getSigner(); 
@@ -19,4 +19,4 @@ const ListAsset = async(assetAddress: string, amount: number, price: number) => 
     }
 }
 
-export default ListAsset;
+export default BuyAssetTokens;
