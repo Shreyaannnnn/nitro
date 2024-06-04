@@ -1,6 +1,6 @@
 "use client"
 import Image from 'next/image'
-import React, { useState } from 'react'
+import React, { useState, useEffect, FormEvent } from 'react'
 import Slider from 'react-slick';
 import 'slick-carousel/slick/slick.css';
 import video from '@/public/images/videoUp.png';
@@ -31,12 +31,17 @@ import Link from 'next/link';
 
 
 import { Button } from '../components/ui/button';
+import getAssetAddress from '@/utils/functions/getAddress';
+import getListing from '@/utils/functions/getListing';
+import BuyAssetTokens from '@/utils/functions/BuyAssetTokens';
 function NftPage() {
     const searchParams = useSearchParams();
     const price = searchParams?.get('price');
     const thumbnail = searchParams?.get('thumbnail');
     const vid = searchParams?.get('video');
+    const amount = searchParams?.get('amount')
     const [count, setCount] = useState(0);
+    const [availableTokens, setAvailableTokens] = useState(0);
 
   const increaseCount = () => {
     setCount(count + 1);
@@ -45,6 +50,21 @@ function NftPage() {
   const decreaseCount = () => {
     setCount(count - 1);
   };
+
+  const handleSubmit = async (event: FormEvent<HTMLFormElement>) =>{
+    event.preventDefault();
+    const buy = await BuyAssetTokens(searchParams?.get('video'), count)
+    const result = await buy;
+    console.log(result);
+    
+  }
+
+  useEffect(() => {
+    (async () => {
+        
+
+    })();
+}, []);
     
   return (
     <div className='bg-[#0D0D0E] h-[100%] md:h-[100vh] ' style={{
@@ -75,16 +95,22 @@ function NftPage() {
                         <p className='text-white text-[5vw] md:text-[2vw] font-semibold ' >Basic how to get into web3 Ecosystem</p>
                         {/* <p className='text-white text-[4vw] md:text-[1vw] font-semibold' >Description</p>
                         <p className='text-[#D4D4D4] text-[3vw] md:text-[1vw]' >Chris Fisher, also known as the Blind Woodturner, learned his craft by listening to hundreds of hours of YouTube videos and experimenting in his workshop. Now he’s a YouTube creator himself, sells his products worldwide, and does demonstrations all around the country. Now he’s a YouTube creator himself, sells his products worldwide, and does demonstrations all around the country.</p> */}
-
+                    
+                    <form onSubmit={handleSubmit}>
                         <div>
                             <div className='flex items-center space-x-[0.5vw]' >
                                 <p className='text-white text-[4vw] md:text-[1.4vw]' >Price : </p>
                                 <p className=' text-[6vw] md:text-[1.5vw] font-semibold bg-gradient-to-r inline-block text-transparent bg-clip-text from-[#33C1EE] via-[#8DDCF5]  to-[#FFFFFF] ' >{price} {" "} wei</p>
                             </div>
+                            <div className='flex items-center space-x-[0.5vw]' >
+                                <p className='text-white text-[4vw] md:text-[1.4vw]' >Total Available Tokens : </p>
+                                <p className=' text-[6vw] md:text-[1.5vw] font-semibold bg-gradient-to-r inline-block text-transparent bg-clip-text from-[#33C1EE] via-[#8DDCF5]  to-[#FFFFFF] ' >{amount}</p>
+                            </div>
                             
                             <div className="  md:flex items-center mt-[2vw] md:mt-0 space-x-[1vw] ">
                             <div className='flex items-center' >
                             <button
+                            type='button'
                                 className="bg-[#33C1EE]  text-white font-bold py-[1vw] px-[3vw] md:py-[0.5vw] md:px-[1vw] rounded-[1vw] md:rounded-[0.2vw] focus:outline-none"
                                 onClick={decreaseCount}
                             >
@@ -92,6 +118,7 @@ function NftPage() {
                             </button>
                             <div className=" text-[5vw] md:text-[1vw] text-white font-semibold py-[0.5vw] px-[1vw]">{count}</div>
                                 <button
+                                type='button'
                                 className="bg-[#33C1EE]  text-white font-bold py-[1vw] px-[3vw] md:py-[0.5vw] md:px-[1vw] rounded-[1vw] md:rounded-[0.2vw] focus:outline-none"
                                 onClick={increaseCount}
                             >
@@ -100,12 +127,13 @@ function NftPage() {
                             </div>
 
                             <div className='mt-[4vw] md:mt-0' >
-                                <Button className='text-black bg-[#33C1EE] w-full  hover:bg-[#33C1EE] rounded-[1vw] md:rounded-[0.2vw] md:h-[4.5vw] lg:h-[3vw] px-[1.5vw] text-[2.8vw] md:text-[1vw] font-bold' >Buy {count} fraction(s)</Button>
+                                <Button type='submit' className='text-black bg-[#33C1EE] w-full  hover:bg-[#33C1EE] rounded-[1vw] md:rounded-[0.2vw] md:h-[4.5vw] lg:h-[3vw] px-[1.5vw] text-[2.8vw] md:text-[1vw] font-bold' >Buy {count} token(s)</Button>
                             </div>
 
 
                             </div>
                         </div>
+                        </form>
 
                     </div>
                 </div>

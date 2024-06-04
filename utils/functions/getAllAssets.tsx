@@ -13,7 +13,7 @@ const getAllAssets = async() =>{
     
 
     for (let index = 0; index < transaction.length; index++) {
-        const AssetContract = new ethers.Contract(transaction[0], abi.Asset, signer);
+        const AssetContract = new ethers.Contract(transaction[index], abi.Asset, signer);
         const cid = await AssetContract.getCid()
         const fileInfo = await lighthouse.getFileInfo(cid)
         const thumbnailCID = fileInfo.data.fileName.substring(fileInfo.data.fileName.lastIndexOf(' ') + 1)
@@ -21,8 +21,10 @@ const getAllAssets = async() =>{
         const tokenDetails = await AssetMarketContract.getTokenDetails(cid);
         const result = {...tokenDetails}
         result[1] = result[1].toString();
+        const listing = await AssetMarketContract.getListing(transaction[index])
 
-        const details = { ...result, cid: cid, thumbnail: thumbnailCID, videoCid: cid }; 
+
+        const details = { ...result, cid: cid, thumbnail: thumbnailCID, videoCid: cid, amount:listing[2].toString() }; 
         data.push(details)
         // data.push({cid:cid})
         

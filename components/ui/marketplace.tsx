@@ -39,7 +39,7 @@ const Market = () => {
     <div className="  md:w-[90%] pb-[1vw] h-full">
       <div className="grid  grid-cols-2 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 gap-4">
         {assets.map((asset: any, index:number) => (
-          <Link href={{pathname:'/NftPage', query: {thumbnail: asset.thumbnail, price: asset[1], video: asset.videoCid}}} key={index}>
+          <Link href={{pathname:'/NftPage', query: {thumbnail: asset.thumbnail, price: asset[1], video: asset.videoCid, amount: asset.amount}}} key={index}>
             <div className='bg-gradient-to-br from-cyan-400  via-[#ad9f9f00] to-cyan-400 p-[0.1vw] rounded-[0.5vw]' >
                 <div className="bg-[#151414] h-full text-white rounded-[0.5vw] overflow-hidden">
                   <div className=  "w-full relative " >
