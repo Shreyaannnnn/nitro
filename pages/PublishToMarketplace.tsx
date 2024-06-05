@@ -61,7 +61,7 @@ const UploadPage =() => {
 
   const { video, cid } = router.query;
   
-      const [videoInfo, setVideoInfo] = useState(null)
+      const [videoInfo, setVideoInfo] = useState<any>(null)
       let VideoInfo;
       if (video) {
         VideoInfo = JSON.parse(decodeURIComponent(video as string));
