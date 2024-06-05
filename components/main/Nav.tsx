@@ -122,7 +122,7 @@ function Nav(){
             </div>
 
 
-            <div className='w-full hidden md:block  ' >
+            <div className='w-full hidden xl:block lg:block md:block  ' >
                 <div className='w-full flex h-[2.5vw] items-center bg-transparent justify-between border border-cyan-400 rounded-[0.5vw] relative ' >
                     <input className='w-full text-[1vw] text-white bg-transparent focus:outline-none rounded-[1vw] px-[1vw] py-1 '
                         type='text'
@@ -178,7 +178,7 @@ function Nav(){
 <DropdownMenu  >
 <DropdownMenuTrigger className='text-white text-center' >
 
-<div className='hidden md:block p-[0.1vw] rounded-[0.5vw] bg-gradient-to-tl from-cyan-400 to-black m-2' >
+<div className='hidden lg:block xl:block md:block p-[0.1vw] rounded-[0.5vw] bg-gradient-to-tl from-cyan-400 to-black m-2' >
                     {/* <Link href='/ProfilePage'> */}
                       <div className='flex bg-black rounded-[0.5vw]  w-[10vw] h-[2.5vw] space-x-[1vw]  items-center' >
                      
