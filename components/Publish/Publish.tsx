@@ -31,7 +31,7 @@ import Lottie from 'react-lottie';
 
 
 interface PublishProps {
-  cid: string,
+  cid: any,
   assetAddress: string
 }
 

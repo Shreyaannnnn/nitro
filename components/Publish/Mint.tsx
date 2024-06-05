@@ -25,9 +25,8 @@ import mintTokens from '@/utils/functions/mintTokens';
 
 
 interface props{
-    cid: string,
+    cid: any,
     assetAddress: string,
-    amount: number
 }
 function Mint({cid, assetAddress}:props) {
     const [amount, setAmount] = useState<number>(0)
