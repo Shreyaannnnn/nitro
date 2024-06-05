@@ -1,34 +1,13 @@
 "use client"
 import React, { useCallback, useState, useEffect } from 'react';
 import { useDropzone } from 'react-dropzone';
-import { Button } from '../components/ui/button';
 import "@/app/globals.css";
-import video from '@/public/images/videoUp.png'
-import coin from '@/public/images/coin.png'
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
-import logo from '@/public/images/logo.png';
-import Sidemenu from '@/components/main/Sidemenu'
 import Nav from '@/components/main/Nav'
-import Lottie, {LottieProps} from 'react-lottie';
-import uploadAnimationData from '@/public/uploading.json'
-import successfulAnimation from '@/public/successful.json'
 import Link from 'next/link';
-import { PutObjectCommand, S3Client } from "@aws-sdk/client-s3";
-import { upload } from "@lighthouse-web3/sdk";
-import lighthouse from '@lighthouse-web3/sdk'
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu"
 import { zodResolver } from "@hookform/resolvers/zod"
 import {ethers, Contract, Provider, JsonRpcSigner} from 'ethers';
-import { Label } from "@/components/ui/label"
-import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
 import { useForm } from "react-hook-form"
 import {
   Form,
@@ -40,22 +19,13 @@ import {
   FormMessage,
 } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { boolean, z } from "zod"
 import ellipse from '@/public/images/EllipseHome.png'
-import { Menu, MenuIcon } from 'lucide-react'
-import VideoSelector from '../components/ui/videoSelector';
-import ThumbnailSelector from '../components/ui/thumbnailSelector';
-import Image from 'next/image';
 import contractABI from '@/public/abi/assetMarket.json';
 import { useRouter } from 'next/router';
-import { log } from 'console';
-import {abi} from '@/utils/config'
 import {contracts} from '@/utils/config'
-import {CID} from 'multiformats/cid';
 import Publish from '@/components/Publish/Publish'
 import getAssetAddress from '@/utils/functions/getAddress';
-import mintTokens from '@/utils/functions/mintTokens';
 import Mint from '@/components/Publish/Mint'
 import getTotalSupply from '@/utils/functions/getTotalSupply';
 
