@@ -123,7 +123,7 @@ function VideoPlayer() {
         <div className=" mx-[2vw] md:mx-[20vw] mt-[2vw] rounded-[1vw] ">
             <video
               className="w-full cursor-pointer h-full rounded-[0.5vw] "
-              src={`https://gateway.lighthouse.storage/ipfs/${VideoInfo.cid}`}
+              src={`https://gateway.lighthouse.storage/ipfs/${VideoInfo?.cid}`}
               title="YouTube video player"
               controls= {true}
             ></video>
