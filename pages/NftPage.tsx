@@ -53,7 +53,7 @@ function NftPage() {
 
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) =>{
     event.preventDefault();
-    const buy = await BuyAssetTokens(searchParams?.get('video'), count)
+    const buy = await BuyAssetTokens(searchParams?.get('video'), count, price)
     const result = await buy;
     console.log(result);
     

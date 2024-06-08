@@ -3,7 +3,7 @@ import {contracts, abi} from '@/utils/config'
 
 
 
-const BuyAssetTokens = async(cid: any, amount: number) => {
+const BuyAssetTokens = async(cid: any, amount: number, price:any) => {
     try{
     const provider = new ethers.BrowserProvider((window as any).ethereum);
     const signer = await provider.getSigner(); 
@@ -11,7 +11,7 @@ const BuyAssetTokens = async(cid: any, amount: number) => {
     // const priceInWei = ethers.parseEther(price.toString());
     // const amountInWei = ethers.parseEther(amount.toString());
     const assetAddress = AssetMarketContract.getAssetAddress(cid);
-    const transaction = await AssetMarketContract.buyasset(assetAddress,amount);
+    const transaction = await AssetMarketContract.buyasset(assetAddress,amount, {value:amount*price});
     console.log(transaction);
     return transaction;
     }
