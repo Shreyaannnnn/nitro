@@ -55,6 +55,22 @@ function Sidemenu(){
                     <p className='text-white text-[1vw]' >Analytics</p>
             </Link>
                 </div>
+
+
+                <div className='flex cursor-pointer space-x-[0.5vw] items-center' >
+            <Link href='/Marketplace'>
+                    <div className=' p-[0.5vw] mx-1 rounded-[0.5vw]' >
+                        <Image src={analytics} className='w-[3vw]' alt='img' />
+                    </div>
+            </Link>
+                
+            <Link href='/Marketplace'>
+                    <p className='text-white text-[1vw]' >Marketplace</p>
+            </Link>
+                </div>
+
+
+            
                 <div className='flex cursor-pointer space-x-[0.5vw] items-center' >
                     <div className=' p-[0.5vw] mx-1 rounded-[0.5vw]' >
                         <Image src={video2} className='w-[3vw]' alt='img' />
