@@ -53,6 +53,7 @@ import { useRouter } from 'next/router';
 import { log } from 'console';
 import CreateContent from '@/utils/functions/CreateContent';
 import { lighthouseAPI } from '@/utils/config'
+import { contracts } from '@/utils/config';
 
 
 // import {ethers} from 'ethers'
@@ -112,7 +113,7 @@ useEffect(() => {
           const signer = await provider.getSigner(); 
           setSigner(signer);
           console.log(signer);
-          const shardZNFTContract = new ethers.Contract("0x23Ef0e4f4031c2d0DeeB4C1f7b8fe097a8276342", contractABI, signer);
+          const shardZNFTContract = new ethers.Contract(contracts.makeNFT, contractABI, signer);
           setContract(shardZNFTContract);
       } catch (error) {
           console.error("Error initializing provider:", error);

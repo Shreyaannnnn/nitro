@@ -33,7 +33,7 @@ import Link from 'next/link';
 import { Button } from '../components/ui/button';
 import getAssetAddress from '@/utils/functions/getAddress';
 import getListing from '@/utils/functions/getListing';
-import BuyAssetTokens from '@/utils/functions/BuyAssetTokens';
+import buy from '@/utils/functions/buy';
 function NftPage() {
     const searchParams = useSearchParams();
     const price = searchParams?.get('price');
@@ -53,11 +53,12 @@ function NftPage() {
 
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) =>{
     event.preventDefault();
-    const buy = await BuyAssetTokens(searchParams?.get('video'), count, price)
-    const result = await buy;
+    const buyy = await buy(searchParams?.get('video'), count, price)
+    const result = await buyy;
     console.log(result);
-    
   }
+
+//   const buy = async ()
 
   useEffect(() => {
     (async () => {
@@ -131,10 +132,14 @@ function NftPage() {
                             </div>
 
 
+
                             </div>
                         </div>
                         </form>
 
+                            {/* <div className='mt-[4vw] md:mt-0' >
+                                <Button onClick={buy} type='submit' className='text-black bg-[#33C1EE] w-full  hover:bg-[#33C1EE] rounded-[1vw] md:rounded-[0.2vw] md:h-[4.5vw] lg:h-[3vw] px-[1.5vw] text-[2.8vw] md:text-[1vw] font-bold' >Buy {count} token(s) with OP</Button>
+                            </div> */}
                     </div>
                 </div>
                 

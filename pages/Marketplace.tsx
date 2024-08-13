@@ -29,6 +29,7 @@ import Link from 'next/link';
 import Market from '../components/ui/marketplace';
 import { ethers } from 'ethers';
 import contractABI from '@/public/abi/createNft.json'
+import { contracts } from '@/utils/config';
 
 
 function MarketPlace() {
@@ -179,7 +180,7 @@ function MarketPlace() {
           const signer = await provider.getSigner(); 
           setSigner(signer);
           console.log(signer);
-          const shardZNFTContract = new ethers.Contract("0x23Ef0e4f4031c2d0DeeB4C1f7b8fe097a8276342", contractABI, signer);
+          const shardZNFTContract = new ethers.Contract(contracts.makeNFT, contractABI, signer);
           setContract(shardZNFTContract);
       
             for (let i = 1; ; i++) {

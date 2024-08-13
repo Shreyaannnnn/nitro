@@ -16,6 +16,7 @@ import {ethers} from 'ethers'
 import { Button } from '../ui/button';
 import SkeletonLoading from './SkeletonLoading';
 import { lighthouseAPI } from '@/utils/config';
+import { contracts } from '@/utils/config';
 
 const Content = () => {
   const videos = [
@@ -60,7 +61,7 @@ const Content = () => {
         const provider = new ethers.BrowserProvider((window as any).ethereum);
             const signer = await provider.getSigner();
             // const shardZNFTContract = new ethers.Contract("0x4335e4fFfD017D382dFae9131E966555f0E41B8C", contractABI, signer);
-            const shardZNFTContract = new ethers.Contract("0x23Ef0e4f4031c2d0DeeB4C1f7b8fe097a8276342", contractABI, signer)
+            const shardZNFTContract = new ethers.Contract(contracts.makeNFT, contractABI, signer)
             
             const response = await lighthouse.getUploads(lighthouseAPI);
             if (response.data && response.data.fileList) {
@@ -140,15 +141,15 @@ const Content = () => {
                     <div className='flex w-1/2 justify-between' >
                       <div className='text-center' >
                         <p className='text-gray-500 text-[0.8vw]' >Views</p>  
-                        <p className='text-[1vw]' >53</p>
+                        <p className='text-[1vw]' >5</p>
                       </div>
                       <div className='text-center' >
                         <p className='text-gray-500 text-[0.8vw]' >Date</p>  
-                        <p className='text-[1vw]' >Apr 13, 2023</p>
+                        <p className='text-[1vw]' >Aug 12, 2024</p>
                       </div>
                       <div className='text-center' >
                         <p className='text-gray-500 text-[0.8vw]' >Comments</p>  
-                        <p className='text-[1vw]'>2</p>
+                        <p className='text-[1vw]'>0</p>
                       </div>
                       <div className='text-white items-center ' >
                         <div className='h-full  items-center text-center ' >

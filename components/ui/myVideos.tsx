@@ -5,6 +5,7 @@ import lighthouse from '@lighthouse-web3/sdk'
 import contractABI from '@/public/abi/createNft.json'
 import {ethers} from 'ethers';
 import { lighthouseAPI } from '@/utils/config';
+import { contracts } from '@/utils/config';
 
 const MyVideos: React.FC = () => {
   const videos = [
@@ -52,7 +53,7 @@ const MyVideos: React.FC = () => {
             const signer = await provider.getSigner();
             setSigner(signer);
             // const shardZNFTContract = new ethers.Contract("0x4335e4fFfD017D382dFae9131E966555f0E41B8C", contractABI, signer);
-            const shardZNFTContract = new ethers.Contract("0x23Ef0e4f4031c2d0DeeB4C1f7b8fe097a8276342", contractABI, signer);
+            const shardZNFTContract = new ethers.Contract(contracts.makeNFT, contractABI, signer);
             setContract(shardZNFTContract);
             
             const response = await lighthouse.getUploads(lighthouseAPI);
