@@ -13,6 +13,9 @@ import downloads from '@/public/images/downloads.png'
 import Sidemenu from '@/components/main/Sidemenu'
 import Nav from '@/components/main/Nav'
 import video2 from '@/public/images/videos2.png'
+import { ArrowRightLeft , ArrowUpDown } from 'lucide-react';
+import CryptoDropdown from '../components/ui/dropdown';
+
 // import thumbnail from '@/public/images/thumbnail.png'
 import {
     DropdownMenu,
@@ -53,6 +56,7 @@ function NftPage() {
 
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) =>{
     event.preventDefault();
+    // <Link href={`/PublishToMarketplace?video=${encodeURIComponent(JSON.stringify(video))}&cid=${video.cid}`} key={index} ></Link>
     const buyy = await buy(searchParams?.get('video'), count, price)
     const result = await buyy;
     console.log(result);
@@ -73,7 +77,7 @@ function NftPage() {
         width: '100%',
         // height: '100%',
         backgroundSize: "cover",
-        backgroundRepeat: 'no-repeat',
+        // backgroundRepeat: 'no-repeat',
       }} >
         
         <Nav />
@@ -145,6 +149,37 @@ function NftPage() {
                 
             </div>
                 </div>
+            </div>
+
+            <div className='w-4/5  ' >
+                <p  className='text-center text-[2vw] text-white pb-[1vw] font-semibold ' >Swap</p>
+                <div className=' ' >
+                    <div className='flex justify-center h-[30vw] items-center' >
+                        <div className='bg-[#33C1EE] rounded-[0.5vw] w-[30%] mr-[-1vw] h-full flex items-center justify-center  ' >
+                            <div className='space-y-[3vw]  text-center' >
+                                <p className='text-white text-[1vw] font-semibold ' >You pay</p>
+                                <p className='text-white font-semibold text-[4vw] ' >120</p>
+                                <CryptoDropdown/>
+                            </div> 
+                        </div>
+                        <div className='p-[1vw] border-[0.2vw] rounded-[0.5vw] bg-black z-10 ' ><ArrowRightLeft className='bg-black text-white  ' /></div>
+                        <div className='bg-[#33C1EE] ml-[-1vw] rounded-[0.5vw] w-[30%] h-full flex items-center justify-center  ' >
+                            <div className='text-center space-y-[3vw]' >
+                                <p className='text-white text-[1vw] font-semibold ' >You pay</p>
+                                <p className='text-white font-semibold text-[4vw] ' >120</p>
+                                <div className='text-white' >
+                                    <CryptoDropdown  />
+                                </div>
+                            </div> 
+                            
+                        </div>
+                        </div>
+                        <div className='flex justify-center my-[2vw] ' ><Button className='text-white text-[1vw]  rounded-[0.5vw]  bg-[#005C7985] w-[63%] mx-auto' >Connect Wallet</Button></div>
+                  
+                </div>    
+               
+                    
+                
             </div>
             {/* <Link href='/VideoPlayerPage'>
            <h1 className='text-white text-[2vw] text-center'> Go To Video</h1>
