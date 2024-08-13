@@ -11,7 +11,7 @@ async function getQuote(params: any) {
     try {
       const res = await axios.get(quoteUrl, { params });
       console.log(res);
-      return res.data;
+      return res;
     } catch (e) {
       console.error(`Fetching quote data from pathfinder: ${e}`);
       return null;

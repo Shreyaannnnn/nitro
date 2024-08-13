@@ -15,6 +15,8 @@ import Nav from '@/components/main/Nav'
 import video2 from '@/public/images/videos2.png'
 import { ArrowRightLeft , ArrowUpDown } from 'lucide-react';
 import CryptoDropdown from '../components/ui/dropdown';
+import { ethers } from "ethers";
+import axios from 'axios'
 
 // import thumbnail from '@/public/images/thumbnail.png'
 import {
@@ -37,14 +39,24 @@ import { Button } from '../components/ui/button';
 import getAssetAddress from '@/utils/functions/getAddress';
 import getListing from '@/utils/functions/getListing';
 import buy from '@/utils/functions/buy';
+import getquote from '@/utils/functions/getQuote';
+import checkAndSetAllowance from '@/utils/functions/allow';
+import getTransaction from '@/utils/functions/getTransacton';
 function NftPage() {
     const searchParams = useSearchParams();
-    const price = searchParams?.get('price');
+    const price: any = searchParams?.get('price');
     const thumbnail = searchParams?.get('thumbnail');
     const vid = searchParams?.get('video');
     const amount = searchParams?.get('amount')
     const [count, setCount] = useState(0);
     const [availableTokens, setAvailableTokens] = useState(0);
+    const [quote, setQuote] = useState<any>('') 
+    const [step1, setStep1] = useState("");
+    const [step2, setStep2] = useState("");
+    const [step3, setStep3] = useState("");
+    const [isLoading, setIsLoading] = useState(false);
+    const [quoteData, setQuoteData] = useState(null)
+    const [swapAmount, setSwapAmount] = useState(0);
 
   const increaseCount = () => {
     setCount(count + 1);
@@ -64,15 +76,138 @@ function NftPage() {
 
 //   const buy = async ()
 
-  useEffect(() => {
-    (async () => {
+
+
+const execute = async () => {
+    setStep1("");
+    setStep2("");
+    setStep3("");
+    {
+      const params = {
+        fromTokenAddress: "0xEeeeeEeeeEeEeeEeEeEeeEEEeeeeEeeeeeeeEEeE",
+        toTokenAddress: "0xEeeeeEeeeEeEeeEeEeEeeEEEeeeeEeeeeeeeEEeE",
+        amount: swapAmount,
+        fromTokenChainId: 137, //800
+        toTokenChainId: 42161, // avax
+        partnerId: "0",
+        // 'widgetId': 0, // get your unique wdiget id by contacting us on Telegram
+      };
+
+      const quoteData = await getQuote(params);
+      setQuoteData(quoteData);
+      setStep1("✅");
+      // alert(quoteData.allowanceTo);
+      console.log("response");
+      console.log(quoteData);
+      if ((window as any).ethereum) {
+        console.log("detected");
+        // console.log(selectedToken);
+        // console.log(selectedToken1);
         
 
-    })();
-}, []);
+        try {
+          const accounts = await (window as any).ethereum.request({
+            method: "eth_requestAccounts",
+          });
+
+          console.log(accounts[0]);
+          console.log(quoteData);
+          
+          console.log("response");
+          const txResponse = await getTransaction(
+              {
+                  fromTokenAddress: "0xEeeeeEeeeEeEeeEeEeEeeEEEeeeeEeeeeeeeEEeE",
+                  toTokenAddress: "0xEeeeeEeeeEeEeeEeEeEeeEEEeeeeEeeeeeeeEEeE",
+                  fromTokenChainId: 137,
+                  toTokenChainId: 42161, // Fuji
+                  
+                  widgetId: 0, // get your unique wdiget id by contacting us on Telegram
+                },
+            // {
+            //     fromTokenAddress: "0xEeeeeEeeeEeEeeEeEeEeeEEEeeeeEeeeeeeeEEeE",
+            //     toTokenAddress: "0xEeeeeEeeeEeEeeEeEeEeeEEEeeeeEeeeeeeeEEeE",
+            //     fromTokenChainId: 137,
+            //     toTokenChainId: 42161, // Fuji
+                
+            //     widgetId: 0, // get your unique wdiget id by contacting us on Telegram
+            //   },
+                quoteData
+            ); // params have been defined in step 1 and quoteData has also been fetched in step 1
+            console.log("response");
+            setStep2("✅");
+            console.log(quoteData);
+            console.log(txResponse);
+            const provider = new ethers.BrowserProvider((window as any).ethereum);
+            const signer = await provider.getSigner();
+          // sending the transaction using the data given by the pathfinder
+          const tx = await signer.sendTransaction(txResponse.txn);
+          try {
+            await tx.wait();
+            console.log(`Transaction mined successfully: ${tx.hash}`);
+            alert(`Transaction mined successfully: ${tx.hash}`);
+            setStep3("✅");
+          } catch (error) {
+            console.log(`Transaction failed with error: ${error}`);
+          }
+        } catch (err) {
+          console.log(err);
+        }
+      }
+    }
+  };
+
+  const PATH_FINDER_API_URL =
+    "https://api-beta.pathfinder.routerprotocol.com/api";
+  // Makes an HTTP GET Request to the Nitro Pathfinder API
+  // quote data, which typically includes details about the token transfer,
+  // such as source and destination chains, token amount, fees, and other relevant information.
+  const getQuote = async (params: any) => {
+    const endpoint = "v2/quote";
+    const quoteUrl = `${PATH_FINDER_API_URL}/${endpoint}`;
+
+    console.log(quoteUrl);
+
+    try {
+      const res = await axios.get(quoteUrl, { params });
+      return res.data;
+    } catch (e) {
+      console.error(`Fetching quote data from pathfinder: ${e}`);
+    }
+  };
+  // This function is responsible for actually executing the transaction. It takes in the following parameters
+  const getTransaction = async (params: any, quoteData: any) => {
+    const endpoint = "v2/transaction";
+    const txDataUrl = `${PATH_FINDER_API_URL}/${endpoint}`;
+
+    console.log(txDataUrl);
+    const provider = new ethers.BrowserProvider((window as any).ethereum)
+    const signer = await provider.getSigner();
+    const add = await signer.getAddress();
+    console.log(add);
+    
+
+    try {
+      const res = await axios.post(txDataUrl, {
+        ...quoteData,
+        // fromTokenAddress: params.fromTokenAddress,
+        // toTokenAddress: params.toTokenAddress,
+        slippageTolerance: 0.5,
+        senderAddress: add,
+        receiverAddress: add,
+        // widgetId: params.widgetId
+      });
+      return res.data;
+    } catch (e) {
+      console.error(`Fetching tx data from pathfinder: ${e}`);
+    }
+  };
+
+
+
+
     
   return (
-    <div className='bg-[#0D0D0E] h-[100%] md:h-[100vh] ' style={{
+    <div className='bg-[#0D0D0E]  ' style={{
         backgroundImage: `url(${ellipse.src})`,
         width: '100%',
         // height: '100%',
@@ -158,23 +293,54 @@ function NftPage() {
                         <div className='bg-[#33C1EE] rounded-[0.5vw] w-[30%] mr-[-1vw] h-full flex items-center justify-center  ' >
                             <div className='space-y-[3vw]  text-center' >
                                 <p className='text-white text-[1vw] font-semibold ' >You pay</p>
-                                <p className='text-white font-semibold text-[4vw] ' >120</p>
-                                <CryptoDropdown/>
+                                <p className='text-white font-semibold text-[4vw] ' >{count*price}</p>
+                                {/* <input
+                                    type="text"
+                                    placeholder="Enter amount"
+                                    className="w-full outline-slate-300 p-3 rounded bg-[#63639f4d] text-white placeholder:text-gray-300"
+                                    onChange={(e) => {
+                                        setSwapAmount( Math.pow(10, 18) * e.target.value);
+                                    }}
+                                /> */}
+
+
+                                <input
+                                type="text"
+                                placeholder="Enter amount"
+                                className="w-full outline-slate-300 p-3 rounded bg-[#63639f4d] text-white placeholder:text-gray-300"
+                                onChange={(e) => {
+                                    const value = parseFloat(e.target.value); // Convert the input value to a number
+                                    if (!isNaN(value)) {
+                                    setSwapAmount(Math.pow(10, 18) * value); // Perform the arithmetic operation
+                                    } else {
+                                    setSwapAmount(0); // Handle invalid input
+                                    }
+                                }}
+                                />
+
+
+                                {/* <CryptoDropdown/> */}
+                                MATIC
                             </div> 
                         </div>
                         <div className='p-[1vw] border-[0.2vw] rounded-[0.5vw] bg-black z-10 ' ><ArrowRightLeft className='bg-black text-white  ' /></div>
                         <div className='bg-[#33C1EE] ml-[-1vw] rounded-[0.5vw] w-[30%] h-full flex items-center justify-center  ' >
                             <div className='text-center space-y-[3vw]' >
-                                <p className='text-white text-[1vw] font-semibold ' >You pay</p>
-                                <p className='text-white font-semibold text-[4vw] ' >120</p>
+                                <p className='text-white text-[1vw] font-semibold ' >You recieve</p>
+                                {/* <p className='text-white font-semibold text-[4vw] ' >{count*price}</p> */}
                                 <div className='text-white' >
-                                    <CryptoDropdown  />
+                                    Arb ETH
+                                    {/* <CryptoDropdown  /> */}
                                 </div>
                             </div> 
                             
                         </div>
                         </div>
-                        <div className='flex justify-center my-[2vw] ' ><Button className='text-white text-[1vw]  rounded-[0.5vw]  bg-[#005C7985] w-[63%] mx-auto' >Connect Wallet</Button></div>
+                        <div className='flex justify-center my-[2vw] space-between' >
+                            <Button onClick={execute} className='text-white text-[1vw]  rounded-[0.5vw]  bg-[#005C7985] w-[63%] mx-auto m-4' >Get Quote</Button>
+                            {/* <Button onClick={allowance} className='text-white text-[1vw]  rounded-[0.5vw]  bg-[#005C7985] w-[63%] mx-auto m-4' >Set Allowance</Button>
+                            <Button onClick={tx} className='text-white text-[1vw]  rounded-[0.5vw]  bg-[#005C7985] w-[63%] mx-auto m-4' >Execute</Button> */}
+                        </div>
                   
                 </div>    
                

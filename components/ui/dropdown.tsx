@@ -4,7 +4,7 @@ import Image from 'next/image';
 const CryptoDropdown = () => {
   const [selectedCurrency, setSelectedCurrency] = useState(null);
   const [menuOpen, setMenuOpen] = useState(false); // State to control dropdown menu visibility
-  const currencies = ['BTC', 'ETH', 'LTC'];
+  const currencies = ['OP', 'ARB'];
 
   const handleSelectCurrency = (currency:any) => {
     setSelectedCurrency(currency);
